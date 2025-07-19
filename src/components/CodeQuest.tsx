@@ -187,6 +187,7 @@ export const CodeQuest = () => {
   const [heroAnimation, setHeroAnimation] = useState("");
   const [enemyAnimation, setEnemyAnimation] = useState("");
   const [defeatAnimation, setDefeatAnimation] = useState(false);
+  const [victoryVideo, setVictoryVideo] = useState(false);
   const [apiKey, setApiKey] = useState("");
   const [useAI, setUseAI] = useState(false);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
@@ -361,7 +362,15 @@ export const CodeQuest = () => {
       setHeroAnimation("");
       setEnemyAnimation("");
       
-      if (currentLevel < 9) { // Infinite levels with AI
+      // Check if this is level 5 (0-indexed, so level 4 = 5th level)
+      if (currentLevel === 4) {
+        setVictoryVideo(true);
+        setTimeout(() => {
+          setVictoryVideo(false);
+          setCurrentLevel(prev => prev + 1);
+          loadNextChallenge();
+        }, 10000); // 10 seconds for video
+      } else if (currentLevel < 9) { // Infinite levels with AI
         setCurrentLevel(prev => prev + 1);
         loadNextChallenge();
       } else {
@@ -611,6 +620,21 @@ export const CodeQuest = () => {
                   className="w-32 h-32 object-contain animate-[ghostGrow_3s_ease-in-out_forwards]"
                   style={{ transform: 'scaleX(-1)' }}
                 />
+              </div>
+            </div>
+          )}
+
+          {victoryVideo && (
+            <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+              <div className="w-full h-full">
+                <iframe
+                  src="https://www.youtube.com/embed/c1rBk7XAlj0?autoplay=1&mute=0&controls=0&showinfo=0&rel=0&loop=0&modestbranding=1"
+                  title="Victory Celebration"
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
               </div>
             </div>
           )}
