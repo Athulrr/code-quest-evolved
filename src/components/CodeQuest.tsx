@@ -117,34 +117,52 @@ If multiple parameters, use array for testInput. Make testInput and expectedOutp
   private getFallbackChallenge(difficulty: number): Challenge {
     const fallbacks = [
       {
-        description: "Write a function named `add` that adds two numbers. Example: add(3, 5) should return 8",
-        starterCode: "function add(a, b) {\n  // Your code here\n}",
-        testInput: [3, 5],
-        expectedOutput: 8
+        description: "Write a function named `fibonacci` that finds the nth Fibonacci number using recursion. Example: fibonacci(7) should return 13",
+        starterCode: "function fibonacci(n) {\n  // Your code here\n}",
+        testInput: [7],
+        expectedOutput: 13
       },
       {
-        description: "Write a function named `reverse` that reverses a string. Example: reverse('hello') should return 'olleh'",
-        starterCode: "function reverse(str) {\n  // Your code here\n}",
-        testInput: "hello",
-        expectedOutput: "olleh"
-      },
-      {
-        description: "Write a function named `isEven` that checks if a number is even. Example: isEven(4) should return true",
-        starterCode: "function isEven(num) {\n  // Your code here\n}",
-        testInput: 4,
+        description: "Write a function named `isAnagram` that checks if two strings are anagrams. Example: isAnagram('listen', 'silent') should return true",
+        starterCode: "function isAnagram(str1, str2) {\n  // Your code here\n}",
+        testInput: ["listen", "silent"],
         expectedOutput: true
       },
       {
-        description: "Write a function named `factorial` that calculates factorial. Example: factorial(5) should return 120",
-        starterCode: "function factorial(n) {\n  // Your code here\n}",
-        testInput: 5,
-        expectedOutput: 120
+        description: "Write a function named `lcs` that finds the longest common subsequence. Example: lcs('ABCDGH', 'AEDFHR') should return 'ADH'",
+        starterCode: "function lcs(str1, str2) {\n  // Your code here\n}",
+        testInput: ["ABCDGH", "AEDFHR"],
+        expectedOutput: "ADH"
       },
       {
-        description: "Write a function named `isPalindrome` that checks palindromes. Example: isPalindrome('racecar') should return true",
-        starterCode: "function isPalindrome(str) {\n  // Your code here\n}",
-        testInput: "racecar",
-        expectedOutput: true
+        description: "Write a function named `binarySearch` that implements binary search. Example: binarySearch([1,3,5,7,9], 5) should return 2",
+        starterCode: "function binarySearch(arr, target) {\n  // Your code here\n}",
+        testInput: [[1,3,5,7,9], 5],
+        expectedOutput: 2
+      },
+      {
+        description: "Write a function named `primeFactors` that finds all prime factors. Example: primeFactors(84) should return [2,2,3,7]",
+        starterCode: "function primeFactors(n) {\n  // Your code here\n}",
+        testInput: [84],
+        expectedOutput: [2,2,3,7]
+      },
+      {
+        description: "Write a function named `longestPalindrome` that finds the longest palindromic substring. Example: longestPalindrome('babad') should return 'bab'",
+        starterCode: "function longestPalindrome(s) {\n  // Your code here\n}",
+        testInput: ["babad"],
+        expectedOutput: "bab"
+      },
+      {
+        description: "Write a function named `dfs` that implements depth-first search. Example: dfs(graph, 0) should return visited nodes",
+        starterCode: "function dfs(graph, start) {\n  // Your code here\n}",
+        testInput: [[[1,2], [0,3], [0,3], [1,2]], 0],
+        expectedOutput: [0,1,3,2]
+      },
+      {
+        description: "Write a function named `mergeSort` that implements merge sort algorithm. Example: mergeSort([3,1,4,1,5]) should return [1,1,3,4,5]",
+        starterCode: "function mergeSort(arr) {\n  // Your code here\n}",
+        testInput: [[3,1,4,1,5]],
+        expectedOutput: [1,1,3,4,5]
       }
     ];
     
@@ -168,6 +186,7 @@ export const CodeQuest = () => {
   const [gameState, setGameState] = useState<'setup' | 'playing' | 'victory' | 'defeat' | 'complete' | 'loading'>('setup');
   const [heroAnimation, setHeroAnimation] = useState("");
   const [enemyAnimation, setEnemyAnimation] = useState("");
+  const [defeatAnimation, setDefeatAnimation] = useState(false);
   const [apiKey, setApiKey] = useState("");
   const [useAI, setUseAI] = useState(false);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
@@ -185,48 +204,75 @@ export const CodeQuest = () => {
   const fallbackChallenges: Challenge[] = [
     {
       id: 1,
-      description: "Write a function to reverse a string.",
-      starterCode: `function reverse(str) {\n  // Your code here\n}`,
-      testInput: "vibe",
-      expectedOutput: "ebiv",
+      description: "Write a function to find the nth Fibonacci number using recursion. Example: fibonacci(7) should return 13",
+      starterCode: `function fibonacci(n) {\n  // Your code here\n}`,
+      testInput: 7,
+      expectedOutput: 13,
       testFunction: (userFunc, input) => userFunc(input),
       difficulty: 1
     },
     {
       id: 2,
-      description: "Write a function to check if a number is even.",
-      starterCode: `function isEven(num) {\n  // Your code here\n}`,
-      testInput: 4,
+      description: "Write a function to check if a string is a valid anagram of another. Example: isAnagram('listen', 'silent') should return true",
+      starterCode: `function isAnagram(str1, str2) {\n  // Your code here\n}`,
+      testInput: ["listen", "silent"],
       expectedOutput: true,
-      testFunction: (userFunc, input) => userFunc(input),
+      testFunction: (userFunc, input) => userFunc(...input),
       difficulty: 2
     },
     {
       id: 3,
-      description: "Write a function to find the maximum number in an array.",
-      starterCode: `function findMax(arr) {\n  // Your code here\n}`,
-      testInput: [1, 5, 3, 9, 2],
-      expectedOutput: 9,
-      testFunction: (userFunc, input) => userFunc(input),
+      description: "Write a function to find the longest common subsequence of two strings. Example: lcs('ABCDGH', 'AEDFHR') should return 'ADH'",
+      starterCode: `function lcs(str1, str2) {\n  // Your code here\n}`,
+      testInput: ["ABCDGH", "AEDFHR"],
+      expectedOutput: "ADH",
+      testFunction: (userFunc, input) => userFunc(...input),
       difficulty: 3
     },
     {
       id: 4,
-      description: "Write a function to count vowels in a string.",
-      starterCode: `function countVowels(str) {\n  // Your code here\n}`,
-      testInput: "hello world",
-      expectedOutput: 3,
-      testFunction: (userFunc, input) => userFunc(input),
+      description: "Write a function to implement binary search on a sorted array. Example: binarySearch([1,3,5,7,9], 5) should return 2",
+      starterCode: `function binarySearch(arr, target) {\n  // Your code here\n}`,
+      testInput: [[1,3,5,7,9], 5],
+      expectedOutput: 2,
+      testFunction: (userFunc, input) => userFunc(...input),
       difficulty: 4
     },
     {
       id: 5,
-      description: "Write a function to check if a string is a palindrome.",
-      starterCode: `function isPalindrome(str) {\n  // Your code here\n}`,
-      testInput: "racecar",
-      expectedOutput: true,
+      description: "Write a function to find all prime factors of a number. Example: primeFactors(84) should return [2,2,3,7]",
+      starterCode: `function primeFactors(n) {\n  // Your code here\n}`,
+      testInput: 84,
+      expectedOutput: [2,2,3,7],
       testFunction: (userFunc, input) => userFunc(input),
       difficulty: 5
+    },
+    {
+      id: 6,
+      description: "Write a function to implement merge sort algorithm. Example: mergeSort([3,1,4,1,5]) should return [1,1,3,4,5]",
+      starterCode: `function mergeSort(arr) {\n  // Your code here\n}`,
+      testInput: [[3,1,4,1,5]],
+      expectedOutput: [1,1,3,4,5],
+      testFunction: (userFunc, input) => userFunc(input),
+      difficulty: 6
+    },
+    {
+      id: 7,
+      description: "Write a function to find the longest palindromic substring. Example: longestPalindrome('babad') should return 'bab'",
+      starterCode: `function longestPalindrome(s) {\n  // Your code here\n}`,
+      testInput: "babad",
+      expectedOutput: "bab",
+      testFunction: (userFunc, input) => userFunc(input),
+      difficulty: 7
+    },
+    {
+      id: 8,
+      description: "Write a function to implement depth-first search on a graph. Example: dfs(graph, 0) should return visited nodes",
+      starterCode: `function dfs(graph, start) {\n  // Your code here\n}`,
+      testInput: [[[1,2], [0,3], [0,3], [1,2]], 0],
+      expectedOutput: [0,1,3,2],
+      testFunction: (userFunc, input) => userFunc(...input),
+      difficulty: 8
     }
   ];
 
@@ -340,9 +386,13 @@ export const CodeQuest = () => {
       
       setHeroAnimation("explode");
       setGameState('defeat');
+      setDefeatAnimation(true);
+      
+      // Start the defeat sequence
       setTimeout(() => {
+        setDefeatAnimation(false);
         restartGame();
-      }, 2000);
+      }, 3000);
     }
   };
 
@@ -378,7 +428,7 @@ export const CodeQuest = () => {
     return (
       <div className="min-h-screen bg-[#0f0f0f] text-[#00ff88] p-5 font-mono flex items-center justify-center">
         <div className="max-w-md w-full bg-[#1a1a1a] border-2 border-[#00ff88] rounded-lg p-6 shadow-[0_0_15px_#00ff88]">
-          <h1 className="text-3xl font-bold text-center mb-8 text-[#00ff88] drop-shadow-[0_0_5px_#00ff88]">
+          <h1 className="text-2xl font-bold text-center mb-8 text-[#00ff88] drop-shadow-[0_0_5px_#00ff88]" style={{ fontFamily: "'Press Start 2P', monospace" }}>
             CodeQuest
           </h1>
           
@@ -447,7 +497,7 @@ export const CodeQuest = () => {
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-[#00ff88] p-5 font-mono">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-[#00ff88] drop-shadow-[0_0_5px_#00ff88]">
+        <h1 className="text-3xl font-bold text-center mb-8 text-[#00ff88] drop-shadow-[0_0_5px_#00ff88]" style={{ fontFamily: "'Press Start 2P', monospace" }}>
           💻 CodeQuest {useAI ? '🤖' : ''}
         </h1>
         
@@ -500,23 +550,32 @@ export const CodeQuest = () => {
 
           <div className="flex justify-between items-center mt-8">
             <div 
-              className={`w-32 h-32 bg-black border-2 border-[#00ff88] flex items-center justify-center text-2xl font-bold relative ${
+              className={`w-32 h-32 flex items-center justify-center relative overflow-hidden ${
                 heroAnimation === 'slash' ? 'animate-[slash_0.4s_ease-in-out]' :
                 heroAnimation === 'hurt' ? 'animate-[shake_0.4s]' :
                 heroAnimation === 'explode' ? 'animate-[explode_0.6s_ease-in-out_forwards]' : ''
               }`}
             >
-              🦸‍♂️
+              <img 
+                src="/hero.png" 
+                alt="Hero" 
+                className="w-full h-full object-contain"
+              />
             </div>
 
             <div className="text-4xl">⚔️</div>
 
             <div 
-              className={`w-32 h-32 bg-black border-2 border-[#00ff88] flex items-center justify-center text-2xl font-bold ${
+              className={`w-32 h-32 flex items-center justify-center overflow-hidden ${
                 enemyAnimation === 'explode' ? 'animate-[explode_0.6s_ease-in-out_forwards]' : ''
               }`}
             >
-              👾
+              <img 
+                src="https://img.itch.zone/aW1hZ2UvMTE0OTYwLzUzMjQ0Ny5naWY=/315x250%23cm/8NKw9d.gif" 
+                alt="Enemy" 
+                className="w-full h-full object-contain"
+                style={{ transform: 'scaleX(-1)' }}
+              />
             </div>
           </div>
 
@@ -540,6 +599,19 @@ export const CodeQuest = () => {
           {gameState === 'defeat' && (
             <div className="text-3xl text-center mt-6 text-red-500 drop-shadow-[0_0_10px_red] animate-[fadeIn_0.8s_ease-in-out]">
               💀 Defeat! Hero vanished... Restarting quest...
+            </div>
+          )}
+
+          {defeatAnimation && (
+            <div className="fixed inset-0 z-50 pointer-events-none">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <img 
+                  src="https://img.itch.zone/aW1hZ2UvMTE0OTYwLzUzMjQ0Ny5naWY=/315x250%23cm/8NKw9d.gif" 
+                  alt="Enemy" 
+                  className="w-32 h-32 object-contain animate-[ghostGrow_3s_ease-in-out_forwards]"
+                  style={{ transform: 'scaleX(-1)' }}
+                />
+              </div>
             </div>
           )}
         </div>

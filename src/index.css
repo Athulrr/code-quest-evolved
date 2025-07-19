@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -125,4 +127,15 @@ All colors MUST be HSL.
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes ghostGrow {
+  0% { 
+    transform: scale(1) scaleX(-1);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(12) scaleX(-1);
+    opacity: 0.8;
+  }
 }
