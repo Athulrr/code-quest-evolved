@@ -31,5 +31,5 @@ Along the way, players may discover **hidden Easter eggs inspired by Demon Slaye
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/codequest.git
+git clone https://github.com/Athulrr/code-quest-evolved.git
 cd codequest
