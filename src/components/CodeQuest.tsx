@@ -379,7 +379,7 @@ export const CodeQuest = () => {
       <div className="min-h-screen bg-[#0f0f0f] text-[#00ff88] p-5 font-mono flex items-center justify-center">
         <div className="max-w-md w-full bg-[#1a1a1a] border-2 border-[#00ff88] rounded-lg p-6 shadow-[0_0_15px_#00ff88]">
           <h1 className="text-3xl font-bold text-center mb-8 text-[#00ff88] drop-shadow-[0_0_5px_#00ff88]">
-            💻 CodeQuest
+            CodeQuest
           </h1>
           
           <div className="space-y-6">
