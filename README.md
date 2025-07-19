@@ -1,8 +1,10 @@
-# CodeQuest
+# CodeQuest 🧒🎮💻
 
 **CodeQuest** is a retro-style coding adventure game built specially for **kids and beginners** stepping into the world of programming. It’s fun, interactive, and designed to make learning how to code feel like a game.
 
-Along the way, players may discover **hidden Easter eggs inspired by Demon Slayer** 🗡️—a special treat for anime fans!
+Along the way, players may discover **hidden Easter eggs inspired by Demon Slayer** 🗡️ — a special treat for anime fans!
+
+🌐 **Live Website**: [https://code-quest-evolved.vercel.app/](https://code-quest-evolved.vercel.app/)
 
 ---
 
