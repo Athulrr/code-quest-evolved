@@ -1,4 +1,4 @@
-# CodeQuest 🧒🎮💻
+# CodeQuest
 
 **CodeQuest** is a retro-style coding adventure game built specially for **kids and beginners** stepping into the world of programming. It’s fun, interactive, and designed to make learning how to code feel like a game.
 
