@@ -39,4 +39,4 @@ Along the way, players may discover **hidden Easter eggs inspired by Demon Slaye
 
 ```bash
 git clone https://github.com/Athulrr/code-quest-evolved.git
-cd codequest
+cd code-quest-evolved
