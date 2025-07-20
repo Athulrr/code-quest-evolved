@@ -20,7 +20,7 @@ Along the way, players may discover **hidden Easter eggs inspired by Demon Slaye
 - 👦 Beginner-friendly challenges
 - 🕹️ Retro 8-bit visual style
 - 🧠 Real-time coding puzzles (JavaScript)
-- 🧩 AI-generated coding quests (coming soon!)
+- 🧩 AI-generated coding quests 
 - 🥷 Hidden **Demon Slayer** references for fun!
 
 ---
